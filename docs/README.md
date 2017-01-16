@@ -12,7 +12,7 @@
 # 0x00 目录结构
 
 ```
-phpSDK
+DotNetSDK
 |
 |-------docs     // 一些说明文档
 |-------DotNetSDK
@@ -29,6 +29,7 @@ phpSDK
 
 # 0x01 初始化 LxSDKManager
 为了方便，这里我们建一个资源类```R```,并添加如下代码：
+
 ```C#
          public class R
     {
