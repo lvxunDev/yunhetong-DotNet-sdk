@@ -1,5 +1,5 @@
 # yunhetong-DotNet-java
-欢迎使用 yunhetong java SDK
+欢迎使用 yunhetong DotNet SDK
 
 - 我们为您编写了一份详细的[Demo](https://github.com/lvxunDev/yunhetong-DotNet-sdk/tree/master/DotNetSDK/example)
 - 你可以查看详细的[文档](https://github.com/lvxunDev/yunhetong-DotNet-sdk/wiki)
