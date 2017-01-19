@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -185,6 +186,38 @@ namespace LxSDK.Library
             return retDict;
         }
 
+        public string createContractFromFile(LxContract contract, LxContractActor[] actors,FileStream fs)
+        {
+            string url = this.host + "/third/fileContract";
+            JObject contract_form_vo = new JObject();   
+            contract_form_vo["vo"] = JsonConvert.SerializeObject(contract);
+            contract_form_vo["attendUser"] = JsonConvert.SerializeObject(actors);
+            contract_form_vo["fileType"] = JsonConvert.SerializeObject(Path.GetExtension(fs.Name).Substring(1));
+            JObject contractInfo = new JObject();
+            contractInfo["filecontractModel"] = contract_form_vo;
+            string secret = this.lx_secret_manager.encrypt(contractInfo.ToString().Replace("contractPrams", "params")).Replace("\r\n", "").Replace(" ", "")/*这个地方因为params是关键字，所以这样替换，可能会产生迷之bug*/.Trim();
+            
+            
+            WebClient webClient = new WebClient();
+
+            var file = new UploadFile{
+                        Name = "file",
+                        Filename = Path.GetFileName(fs.Name),
+                        ContentType = "text/plain",
+                        Stream = fs
+                    };
+            var values = new NameValueCollection{
+                                            { "appid", this.appId },
+                                            { "secret", secret },
+                                            { "hasEn", "0" }
+                                         };
+
+            byte[] retByte = UploadFiles(url, file, values);
+
+            string result = System.Text.Encoding.UTF8.GetString(retByte);
+            // return srcString;
+            return this.lx_secret_manager.decrypt(result);
+        }
 
         public string getLastNotice()
         {
@@ -203,7 +236,63 @@ namespace LxSDK.Library
             return this.lx_secret_manager.decrypt(s);
         }
 
+        public byte[] UploadFiles(string address, UploadFile file, NameValueCollection values)
+        {
+            var request = WebRequest.Create(address);
+            request.Method = "POST";
+            var boundary = "---------------------------" + DateTime.Now.Ticks.ToString("x", NumberFormatInfo.InvariantInfo);
+            request.ContentType = "multipart/form-data; boundary=" + boundary;
+            boundary = "--" + boundary;
 
+            using (var requestStream = request.GetRequestStream())
+            {
+                // Write the values
+                foreach (string name in values.Keys)
+                {
+                    var buffer = Encoding.ASCII.GetBytes(boundary + Environment.NewLine);
+                    requestStream.Write(buffer, 0, buffer.Length);
+                    buffer = Encoding.ASCII.GetBytes(string.Format("Content-Disposition: form-data; name=\"{0}\"{1}{1}", name, Environment.NewLine));
+                    requestStream.Write(buffer, 0, buffer.Length);
+                    buffer = Encoding.UTF8.GetBytes(values[name] + Environment.NewLine);
+                    requestStream.Write(buffer, 0, buffer.Length);
+                }
+
+                // Write the files
+
+                var fileBuffer = Encoding.ASCII.GetBytes(boundary + Environment.NewLine);
+                requestStream.Write(fileBuffer, 0, fileBuffer.Length);
+                fileBuffer = Encoding.UTF8.GetBytes(string.Format("Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"{2}", file.Name, file.Filename, Environment.NewLine));
+                requestStream.Write(fileBuffer, 0, fileBuffer.Length);
+                fileBuffer = Encoding.ASCII.GetBytes(string.Format("Content-Type: {0}{1}{1}", file.ContentType, Environment.NewLine));
+                requestStream.Write(fileBuffer, 0, fileBuffer.Length);
+                file.Stream.CopyTo(requestStream);
+                fileBuffer = Encoding.ASCII.GetBytes(Environment.NewLine);
+                requestStream.Write(fileBuffer, 0, fileBuffer.Length);
+
+                var boundaryBuffer = Encoding.ASCII.GetBytes(boundary + "--");
+                requestStream.Write(boundaryBuffer, 0, boundaryBuffer.Length);
+            }
+
+            using (var response = request.GetResponse())
+            using (var responseStream = response.GetResponseStream())
+            using (var stream = new MemoryStream())
+            {
+                responseStream.CopyTo(stream);
+                return stream.ToArray();
+            }
+        }
+
+        public class UploadFile
+        {
+            public UploadFile()
+            {
+                ContentType = "application/octet-stream";
+            }
+            public string Name { get; set; }
+            public string Filename { get; set; }
+            public string ContentType { get; set; }
+            public Stream Stream { get; set; }
+        }
 
     }
 }

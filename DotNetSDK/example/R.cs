@@ -68,9 +68,9 @@ namespace LxSDK.example
             actorA.locationName = "signA";
 
             LxContractActor actorB = new LxContractActor();
-            actorA.user = getUserA();
-            actorA.autoSign = LxContractActor.AUTO_SIGN.noAutoSign;
-            actorA.locationName = "signB";
+            actorB.user = getUserB();
+            actorB.autoSign = LxContractActor.AUTO_SIGN.noAutoSign;
+            actorB.locationName = "signB";
             return new LxContractActor[] { actorA, actorB };
         }
 
@@ -89,6 +89,7 @@ namespace LxSDK.example
         public static LxContract getTestContract() {
         LxContract lxContract = new LxContract();
             lxContract.contractPrams = getContractParams();    // 这是模板占位符
+            lxContract.appId = R.appId;                        // 第三方应用的 appId
             lxContract.templateId = "123456";                  // 设置合同模板 Id
             lxContract.title = "测试合同标题";                 // 设置合同标题
             lxContract.defContractNo = "随便写";               // 设置自定义合同编号                      
