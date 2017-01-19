@@ -101,8 +101,8 @@
     <Compile Include="example\token_contract.ashx.cs">
       <DependentUpon>token_contract.ashx</DependentUpon>
     </Compile>
-    <Compile Include="Library\Actor.cs" />
-    <Compile Include="Library\Contract.cs" />
+    <Compile Include="Library\LxContractActor.cs" />
+    <Compile Include="Library\LxContract.cs" />
     <Compile Include="Library\LxAESHandler.cs" />
     <Compile Include="Library\LxRsaHandler.cs" />
     <Compile Include="Library\LxSecretManager.cs" />
@@ -110,7 +110,7 @@
     <Compile Include="Library\RSAKeyConvert.cs" />
     <Compile Include="Library\RSAHelper.cs" />
     <Compile Include="Library\SDKManager.cs" />
-    <Compile Include="Library\User.cs" />
+    <Compile Include="Library\LxUser.cs" />
     <Compile Include="example\token.ashx.cs">
       <DependentUpon>token.ashx</DependentUpon>
     </Compile>
