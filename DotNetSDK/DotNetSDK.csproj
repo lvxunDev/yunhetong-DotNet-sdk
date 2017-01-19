@@ -82,16 +82,15 @@
     <Compile Include="example\dowmloadContract.ashx.cs">
       <DependentUpon>dowmloadContract.ashx</DependentUpon>
     </Compile>
-    <Compile Include="example\fileTest.ashx.cs">
-      <DependentUpon>fileTest.ashx</DependentUpon>
-    </Compile>
     <Compile Include="example\messageReceive.ashx.cs">
       <DependentUpon>messageReceive.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="example\invalid_contract.ashx.cs">
+      <DependentUpon>invalid_contract.ashx</DependentUpon>
     </Compile>
     <Compile Include="example\queryContractList.ashx.cs">
       <DependentUpon>queryContractList.ashx</DependentUpon>
     </Compile>
-    <Compile Include="example\LocalR.cs" />
     <Compile Include="example\R.cs" />
     <Compile Include="example\lastNotice.ashx.cs">
       <DependentUpon>lastNotice.ashx</DependentUpon>
@@ -128,7 +127,7 @@
     <Content Include="example\resource\p2p_sk.pem" />
     <Content Include="example\updateUserInfo.ashx" />
     <Content Include="example\lastNotice.ashx" />
-    <Content Include="example\fileTest.ashx" />
+    <Content Include="example\invalid_contract.ashx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
