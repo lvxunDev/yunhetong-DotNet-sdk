@@ -16,15 +16,15 @@ DotNetSDK
 |
 |-------docs     // 一些说明文档
 |-------DotNetSDK
-|         |------example  // php SDK Demo 地址
-|         |------library  // yunhetong php SDK 核心包
+|         |------example  // .Net SDK Demo 地址
+|         |------library  // yunhetong .Net SDK 核心包
 |                 |---- model   // 一些实体类
 |                 |---- Http.class.php
 |                 |---- LxAESHandler.cs             // AES 加密相关的一个类，客户一般不需要使用
 |                 |---- LxRsaHandler.cs             // RSA 加密相关的一个类，客户一般不需要使用
 |                 |---- SDKManager.cs               // 客户最主要使用的一个类
 |                 |---- LxSecretManager.cs          // 加解密管理类，客户一般不需要调用
-|                 |---- StringUtils.php             // 字符串处理的工具类
+|
 ```
 
 # 0x01 初始化 LxSDKManager
