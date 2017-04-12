@@ -17,7 +17,8 @@ namespace LxSDK.example
         public static LxSDKManager getLxSDKManager()
         {
             // 初始化 SDKManager(appId,云合同公钥地址,第三方应用的私钥地址)
-            return new LxSDKManager(appId, "C:\\Users\\Seanwu\\Desktop\\dotnetSDK\\DotNetSDK\\example\\resource\\yhtSK.pem", "C:\\Users\\Seanwu\\Desktop\\dotnetSDK\\DotNetSDK\\example\\resource\\rsa_private_key_pkcs8.pem");
+            string path = System.Web.HttpContext.Current.Request.MapPath("/");
+            return new LxSDKManager(appId, path+"example\\resource\\yhtSK.pem", path+"example\\resource\\rsa_private_key_pkcs8.pem");
         }
 
         /**
